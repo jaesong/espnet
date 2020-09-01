@@ -17,6 +17,7 @@ ${CXX:-g++} -v
     else
         ./setup_python.sh $(which python3) venv
     fi
+    python3 -m pip install -U setuptools
     make TH_VERSION="${TH_VERSION}"
 
     make nkf.done moses.done mwerSegmenter.done pesq pyopenjtalk.done
