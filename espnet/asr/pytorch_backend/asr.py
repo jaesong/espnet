@@ -578,6 +578,7 @@ def train(args):
     with open(args.valid_json, "rb") as f:
         valid_json = json.load(f)["utts"]
 
+    min_batch_size = 2  # XXX fix csj
     use_sortagrad = args.sortagrad == -1 or args.sortagrad > 0
     # make minibatch list (variable length)
     train = make_batchset(
@@ -586,7 +587,7 @@ def train(args):
         args.maxlen_in,
         args.maxlen_out,
         args.minibatches,
-        min_batch_size=args.ngpu if args.ngpu > 1 else 1,
+        min_batch_size=args.ngpu * min_batch_size if args.ngpu > 1 else min_batch_size,
         shortest_first=use_sortagrad,
         count=args.batch_count,
         batch_bins=args.batch_bins,
